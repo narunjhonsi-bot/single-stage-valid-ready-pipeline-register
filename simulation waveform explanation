@@ -1,4 +1,13 @@
 the simulation waveform is taken from vivado and the source code was written in systemverilog.
 
+First, a reset is applied for two clock cycles to initialize the design and ensure the pipeline starts in an empty state.
+After reset is released, a normal data transfer is performed by driving in_valid and out_ready high simultaneously.
+This verifies that the pipeline can correctly accept and forward data when both sides are ready.
 
+Next, a backpressure condition is created by keeping out_ready low while valid input data is presented.
+This checks whether the pipeline correctly stores the incoming data and prevents additional transfers while the
+downstream stage is stalled.
 
+Finally, the recovery scenario is tested by asserting out_ready again. This allows the stored data to be released and
+verifies that the pipeline resumes normal operation without losing or duplicating data.
+A clock with a 10 ns period is generated throughout the simulation
